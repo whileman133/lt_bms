@@ -40,7 +40,7 @@ To use the interface, place the folders in the `libraries` directory of this pro
 
 DC1942C_Stack stack( CHIPSELECT_1 );
 DC1942C_Stack stack2( CHIPSELECT_2 );
-...
+//...
 ```
 
 The pin to use as the SPI chip select pin for LTC6802 SPI-to-isoSPI board interfacing the Arduino with the stack is the only parameter to the constructor.
@@ -50,10 +50,10 @@ After constructing the stack objects, call the `setup` method on each to initial
 
 ```cpp
 void setup() {
-	stack.setup();
-	stack2.setup();
-	...
-	DC1942C_Stack::start();
+  stack.setup();
+  stack2.setup();
+  // ...
+  DC1942C_Stack::start();
 }
 ```
 
@@ -67,9 +67,9 @@ It's recommended you place this declaration in your sketch's global scope so you
 
 Then use the `prepare_config` method to generate the desired configuration words for each stack:
 
-```
+```cpp
 void setup() {
-  ...
+  //...
   stack.prepare_config(
     configData,
     PD_NONE,                        // GPIO pulldown enable
@@ -90,9 +90,9 @@ Write the prepared comfiguration to all of the chips in a stack via the followin
 #define NUM_ICS 6
 // addresses of the ICs in the stack
 const uint8_t IC_ADDRESSES[NUM_ICS] = { 0, 1, 3, 4, 6, 7 };
-...
+// ...
 void setup() {
-  ...
+  // ...
   stack.config_all( NUM_ICS, IC_ADDRESSES, configData )
 }
 ```
