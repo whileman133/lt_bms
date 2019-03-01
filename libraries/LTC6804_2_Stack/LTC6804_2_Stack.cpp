@@ -3,7 +3,7 @@
 // Written by Wes Hileman on 4 June 2016
 // U. of Colorado, Colorado Springs
 //
-// Class to write, read, and parse data from a stack of Linear Technology's 
+// Class to write, read, and parse data from a stack of Linear Technology's
 // addressed LTC6804-2 ICs connected on a multidrop isoSPI bus.
 //
 // Most of this class's digital-architecture dependent functionality can
@@ -51,7 +51,7 @@ const uint8_t LTC6804_2_CC_ARG_VALUES[][LTC6804_MAX_NUM_CC_ARG_VALUES] PROGMEM =
 // Data placement in register groups
 // The maximum data-segment size is 8-bits
 const uint8_t LTC6804_REG_DATA_POS[][REG_DATA_NUM_GEN_DATA_ITEMS + REG_DATA_MAX_NUM_SEGMENTS * REG_DATA_NUM_SEGMENT_DATA_ITEMS] PROGMEM = {
-  // Num data segments | Data-segment size (bits) | Word number (0) | Segment LSB (0) | Word number (1) | Segment LSB (1) | Word number (2) | Segment LSB (2)  ... 
+  // Num data segments | Data-segment size (bits) | Word number (0) | Segment LSB (0) | Word number (1) | Segment LSB (1) | Word number (2) | Segment LSB (2)  ...
   { 1, 1, 0, 10 }, // REFON bit (config reg group)
   { 1, 1, 0, 8 }, // ADCOPT bit (config reg group)
   { 1, 4, 2, 4 }, // cell discharge timeout (config reg group)
@@ -85,7 +85,7 @@ const uint8_t LTC6804_REG_DATA_POS[][REG_DATA_NUM_GEN_DATA_ITEMS + REG_DATA_MAX_
   { 12, 1, 4, 9, 4, 11, 4, 13, 4, 15, 4, 1, 4, 3, 4, 5, 4, 7, 5, 9, 5, 11, 5, 13, 5, 15 }, // overvoltage flags
   { 1, 1, 5, 1 }, // MUXFAIL bit
   { 1, 1, 5, 0 }  // thermal shutdown bit
-}; 
+};
 const uint8_t LTC6804_REG_DATA_SEGMENT_MASKS[] PROGMEM = {
   B00000001, B00000011, B00000111, B00001111, B00011111, B00111111, B01111111, B11111111
 };
@@ -168,7 +168,7 @@ const uint32_t LTC6804_ADC_TIMES_US[][LTC6804_NUM_ADC_OPTS][LTC6804_NUM_ADC_MODE
 			// ADC mode normal (3kHz)
 			{
 				// ALL, GPIO1, GPIO2, GPIO3, GPIO4, GPIO5, 2ndRef
-				3000, 501, 501, 501, 501, 501, 501
+				6000, 501, 501, 501, 501, 501, 501
 			},
 			// ADC mode filtered (2kHz)
 			{
@@ -296,7 +296,7 @@ void LTC6804_2_Stack::stop( void )
 // addresses in the supplied array and verifies the correct data was
 // written to each IC by reading-back the configuration data. Transmits
 // configuration data to each chip in addressed, rather than broadcast,
-// format for simplicity and flexibility (any subset of chips in a stack 
+// format for simplicity and flexibility (any subset of chips in a stack
 // can be configured by this function).
 bool LTC6804_2_Stack::config_all( const uint8_t icCount, const uint8_t* const icAddresses, const uint16_t* const cfgGrp )
 {
@@ -418,13 +418,13 @@ bool LTC6804_2_Stack::verify_config( const int8_t addr, const uint16_t* const cf
 } // end verify_config
 
 // Reads raw configuration words from the '6804 IC targeted by the supplied address into the
-// array whose starting address is given. Broadcast reads are not supported 
-// by this function. Returns true if the read was completed successfully, false otherwise. 
-// Implements a data integrity check by verifying recieved PECs and requesting retransmission if 
+// array whose starting address is given. Broadcast reads are not supported
+// by this function. Returns true if the read was completed successfully, false otherwise.
+// Implements a data integrity check by verifying recieved PECs and requesting retransmission if
 // data is corrupted.
 bool LTC6804_2_Stack::get_raw_config( const int8_t addr, uint16_t* const configData )
 {
-  uint16_t	configPecs[LTC6804_NUM_CV_REGS], 
+  uint16_t	configPecs[LTC6804_NUM_CV_REGS],
   					configCmpPecs[LTC6804_NUM_CV_REGS];
   uint16_t	readAtt = 0;
 
@@ -451,11 +451,11 @@ bool LTC6804_2_Stack::get_raw_config( const int8_t addr, uint16_t* const configD
 } // end get_raw_config
 
 // Reads raw cell-voltage-register data from the '6804 IC targeted by the supplied address into the
-// array whose starting address is given. Broadcast reads are not supported by this function. Implements 
+// array whose starting address is given. Broadcast reads are not supported by this function. Implements
 // a data integrity check by verifying recieved PECs and requesting retransmission if data is corrupted.
 bool LTC6804_2_Stack::get_raw_cell_voltages( const int8_t addr, uint16_t* const cvData )
 {
-  uint16_t	cvPecs[LTC6804_NUM_CV_REGS], 
+  uint16_t	cvPecs[LTC6804_NUM_CV_REGS],
   					cvCmpPecs[LTC6804_NUM_CV_REGS];
   uint16_t	readAtt = 0;
 
@@ -482,11 +482,11 @@ bool LTC6804_2_Stack::get_raw_cell_voltages( const int8_t addr, uint16_t* const 
 } // end get_raw_cell_voltages
 
 // Reads raw auxillary-register data from the '6804 IC targeted by the supplied address into the
-// array whose starting address is given. Broadcast reads are not supported by this function. Implements 
+// array whose starting address is given. Broadcast reads are not supported by this function. Implements
 // a data integrity check by verifying recieved PECs and requesting retransmission if data is corrupted.
 bool LTC6804_2_Stack::get_raw_auxillary( const int8_t addr, uint16_t* const auxData )
 {
-  uint16_t	auxPecs[LTC6804_NUM_AUX_REGS], 
+  uint16_t	auxPecs[LTC6804_NUM_AUX_REGS],
   					auxCmpPecs[LTC6804_NUM_AUX_REGS];
   uint16_t	readAtt = 0;
 
@@ -514,11 +514,11 @@ bool LTC6804_2_Stack::get_raw_auxillary( const int8_t addr, uint16_t* const auxD
 } // end get_raw_auxillary
 
 // Reads raw status-register data from the '6804 IC targeted by the supplied address into the
-// array whose starting address is given. Broadcast reads are not supported by this function. Implements 
+// array whose starting address is given. Broadcast reads are not supported by this function. Implements
 // a data integrity check by verifying recieved PECs and requesting retransmission if data is corrupted.
 bool LTC6804_2_Stack::get_raw_status( const int8_t addr, uint16_t* const statData )
 {
-  uint16_t	statPecs[LTC6804_NUM_STAT_REGS], 
+  uint16_t	statPecs[LTC6804_NUM_STAT_REGS],
   					statCmpPecs[LTC6804_NUM_STAT_REGS];
   uint16_t	readAtt = 0;
 
@@ -579,7 +579,7 @@ void LTC6804_2_Stack::extract_cell_voltages( const uint16_t* const regData, floa
 } // end extract_cell_voltages_float
 
 // Extracts fixed-point cell-voltages from an array of cell-voltage register-group data,
-// whose starting address is specified, into the integer array whose starting address is 
+// whose starting address is specified, into the integer array whose starting address is
 // also specified.
 void LTC6804_2_Stack::extract_cell_voltages( const uint16_t* const regData, uint16_t* const cvData )
 {
@@ -597,10 +597,10 @@ void LTC6804_2_Stack::extract_cell_voltages( const uint16_t* const regData, uint
   cvData[11]  = strip_data( regData, CELL12_VOLTAGE );
 } // end extract_cell_voltages
 
-// Extracts GPIO voltages and the 2nd reference voltage from an array of 
-// auxillary register-group data, whose starting address is specified, into (1) 
+// Extracts GPIO voltages and the 2nd reference voltage from an array of
+// auxillary register-group data, whose starting address is specified, into (1)
 // the floating-point array whose starting address is given (GPIO voltages) and
-// (2) the float whose address is given (2nd reference voltage). 
+// (2) the float whose address is given (2nd reference voltage).
 void LTC6804_2_Stack::extract_auxillary( const uint16_t* const regData, float* const gpioVoltages, float* const ref2Voltage )
 {
   gpioVoltages[0] = GPIO_VOLTAGE_CALC( strip_data( regData, GPIO1_VOLTAGE ) );
@@ -611,10 +611,10 @@ void LTC6804_2_Stack::extract_auxillary( const uint16_t* const regData, float* c
   *ref2Voltage    = REF2_VOLTAGE_CALC( strip_data( regData, REF2_VOLTAGE ) );
 } // end extract_auxillary
 
-// Extracts fixed-point GPIO voltages and the 2nd reference voltage from an array of 
-// auxillary register-group data, whose starting address is specified, into (1) 
+// Extracts fixed-point GPIO voltages and the 2nd reference voltage from an array of
+// auxillary register-group data, whose starting address is specified, into (1)
 // the integer array whose starting address is given (GPIO voltages) and
-// (2) the integer whose address is given (2nd reference voltage). 
+// (2) the integer whose address is given (2nd reference voltage).
 void LTC6804_2_Stack::extract_auxillary( const uint16_t* const regData, uint16_t* const gpioVoltages, uint16_t* const ref2Voltage )
 {
   gpioVoltages[0] = strip_data( regData, GPIO1_VOLTAGE );
@@ -673,7 +673,7 @@ void LTC6804_2_Stack::clear_status( const int8_t addr )
 } // end clear_status
 
 // Sends a command starting cell-voltage analog-to-digital conversion (ADCV) on the
-// '6804 IC whose address is supplied. Specify addr as BROADCAST or -1 to broadcast the 
+// '6804 IC whose address is supplied. Specify addr as BROADCAST or -1 to broadcast the
 // command to all ICs. Also accepts adc mode, discharge permit, and cell select arguments
 // to bind to the ADCV command.
 void LTC6804_2_Stack::start_cell_voltage_adc( const int8_t addr, const uint8_t mode, const uint8_t dischargePermit, const uint8_t cellChannel )
@@ -694,8 +694,8 @@ void LTC6804_2_Stack::start_cell_voltage_adc( const int8_t addr, const uint8_t m
 } // end start_cell_voltage_adc
 
 // Sends a command starting auxillary-voltage analog-to-digital conversion (ADAX) on the
-// '6804 IC whose address is supplied. Specify addr as BROADCAST or -1 to broadcast the 
-// command to all ICs. Also accepts adc mode and auxillary channel-select arguments to bind to 
+// '6804 IC whose address is supplied. Specify addr as BROADCAST or -1 to broadcast the
+// command to all ICs. Also accepts adc mode and auxillary channel-select arguments to bind to
 // the ADAX command.
 void LTC6804_2_Stack::start_auxillary_adc( const int8_t addr, const uint8_t mode, const uint8_t auxChannel )
 {
@@ -714,8 +714,8 @@ void LTC6804_2_Stack::start_auxillary_adc( const int8_t addr, const uint8_t mode
 } // end start_auxillary_adc
 
 // Sends a command starting status-voltage analog-to-digital conversion (ADAX) on the
-// '6804 IC whose address is supplied. Specify addr as BROADCAST or -1 to broadcast the 
-// command to all ICs. Also accepts adc mode and self-test channel-select arguments to bind to 
+// '6804 IC whose address is supplied. Specify addr as BROADCAST or -1 to broadcast the
+// command to all ICs. Also accepts adc mode and self-test channel-select arguments to bind to
 // the ADAX command.
 void LTC6804_2_Stack::start_status_adc( const int8_t addr, const uint8_t mode, const uint8_t statusChannel )
 {
@@ -734,7 +734,7 @@ void LTC6804_2_Stack::start_status_adc( const int8_t addr, const uint8_t mode, c
 } // end start_status_adc
 
 // Sends a command starting multiplexer diagnostics (DIAGN) on the
-// '6804 IC whose address is supplied. Specify addr as BROADCAST or -1 to broadcast the 
+// '6804 IC whose address is supplied. Specify addr as BROADCAST or -1 to broadcast the
 // command to all ICs.
 void LTC6804_2_Stack::start_diagn( const int8_t addr )
 {
@@ -750,8 +750,8 @@ void LTC6804_2_Stack::start_diagn( const int8_t addr )
   write_cmd( cmd, cmdPec );
 } // end start_status_adc
 
-// Writes the specified data to the configuration registers of the IC whose 
-// address is supplied. Specify addr as BROADCAST or -1 to broadcast the write 
+// Writes the specified data to the configuration registers of the IC whose
+// address is supplied. Specify addr as BROADCAST or -1 to broadcast the write
 // to all ICs.
 void LTC6804_2_Stack::write_config( const int8_t addr, const uint16_t* const regDataPtr )
 {
@@ -789,10 +789,10 @@ void LTC6804_2_Stack::read_config( const uint8_t addr, uint16_t* const regDataPt
 
   bind_address( &readCmd, addr );
   cmdPec = crc15( &readCmd, 1 );
-  
-  read_regs( 
+
+  read_regs(
     regDataPtr, dataPecPtr,
-    &readCmd, &cmdPec, 
+    &readCmd, &cmdPec,
     LTC6804_NUM_CONFIG_REGS, LTC6804_NUM_CONFIG_WORDS_PER_REG );
 } // end read_config
 
@@ -812,9 +812,9 @@ void LTC6804_2_Stack::read_cell_voltages( const uint8_t addr, uint16_t* const re
 
   bind_address_array( readCmds, LTC6804_NUM_CV_REGS, addr );
   crc15_group( readCmds, cmdPecs, 1, LTC6804_NUM_CV_REGS );
-  read_regs( 
+  read_regs(
     regDataPtr, dataPecsPtr,
-    readCmds, cmdPecs, 
+    readCmds, cmdPecs,
     LTC6804_NUM_CV_REGS, LTC6804_NUM_CV_WORDS_PER_REG );
 } // end read_cell_voltages
 
@@ -832,9 +832,9 @@ void LTC6804_2_Stack::read_auxillary( const uint8_t addr, uint16_t* const regDat
 
   bind_address_array( readCmds, LTC6804_NUM_AUX_REGS, addr );
   crc15_group( readCmds, cmdPecs, 1, LTC6804_NUM_AUX_REGS );
-  read_regs( 
-    regDataPtr, dataPecsPtr, 
-    readCmds, cmdPecs, 
+  read_regs(
+    regDataPtr, dataPecsPtr,
+    readCmds, cmdPecs,
     LTC6804_NUM_AUX_REGS, LTC6804_NUM_AUX_WORDS_PER_REG );
 } // end read_auxillary
 
@@ -852,9 +852,9 @@ void LTC6804_2_Stack::read_status( const uint8_t addr, uint16_t* const regDataPt
 
   bind_address_array( readCmds, LTC6804_NUM_STAT_REGS, addr );
   crc15_group( readCmds, cmdPecs, 1, LTC6804_NUM_STAT_REGS );
-  read_regs( 
-    regDataPtr, dataPecsPtr, 
-    readCmds, cmdPecs, 
+  read_regs(
+    regDataPtr, dataPecsPtr,
+    readCmds, cmdPecs,
     LTC6804_NUM_STAT_REGS, LTC6804_NUM_STAT_WORDS_PER_REG );
 } // end read_status
 
@@ -895,7 +895,7 @@ void LTC6804_2_Stack::read_regs( uint16_t* const regDataPtr, uint16_t* const dat
     dataPecsPtr[i] = SPI.transfer16(0);
     digitalWrite( _chipSel, HIGH );
   } // end for
-  
+
   end_transaction();
 } // end read_regs
 
@@ -1000,9 +1000,9 @@ void LTC6804_2_Stack::bind_data( uint16_t* const regGrp, const uint8_t dataId, c
 {
   // Lookup positioning information for the data item corresponding to the supplied id
   const uint8_t NUM_DATA_SEGMENTS = pgm_read_byte( &(LTC6804_REG_DATA_POS[dataId][REG_DATA_NUM_SEGMENTS_INDEX]) ),
-                DATA_SEGMENT_SIZE = pgm_read_byte( &(LTC6804_REG_DATA_POS[dataId][REG_DATA_SEGMENT_SIZE_INDEX]) );    
+                DATA_SEGMENT_SIZE = pgm_read_byte( &(LTC6804_REG_DATA_POS[dataId][REG_DATA_SEGMENT_SIZE_INDEX]) );
   const uint8_t DATA_SEGMENT_MASK = pgm_read_byte( &(LTC6804_REG_DATA_SEGMENT_MASKS[DATA_SEGMENT_SIZE - 1]) );
-  
+
   uint16_t data;
   uint8_t wordNum, segLsb;
   uint8_t seg;
@@ -1011,7 +1011,8 @@ void LTC6804_2_Stack::bind_data( uint16_t* const regGrp, const uint8_t dataId, c
   // the lookup threshold
   if( dataId <= END_REG_DATA_VALUES_LOOKUP )
   {
-  	data = pgm_read_word( LTC6804_REG_DATA_VALUES[dataId] + data );
+  	uint16_t *addr = pgm_read_word( &LTC6804_REG_DATA_VALUES[dataId] );
+  	data = pgm_read_word( &addr[valId] );
   } // end if
   else
   {
@@ -1073,7 +1074,7 @@ void LTC6804_2_Stack::setup_keep_alive_timer( void )
   // Set waveform generation mode to normal
   TCCR1A &= ~( bit( WGM11 ) | bit( WGM10 ) );
   TCCR1B &= ~( bit( WGM13 ) | bit( WGM12 ) );
-  
+
   // Enable interrupt on overflow
   TIMSK1 |= bit( TOIE1 );
 } // end setup_keep_alive_timer
@@ -1110,8 +1111,8 @@ void LTC6804_2_Stack::timer_overflow_isr( void )
   } // end for
 } // end timer_overflow_isr
 
-// Performs a blocking delay sufficent to guarantee ADC completion, given the 
-// analog-to-digital conversion (ADC) type, analog-to-digital converter mode option, 
+// Performs a blocking delay sufficent to guarantee ADC completion, given the
+// analog-to-digital conversion (ADC) type, analog-to-digital converter mode option,
 // analog-to-digital converter mode, and analog-to-digital converter channel.
 void LTC6804_2_Stack::adc_delay( const uint8_t conversionType, const uint8_t adcOpt, const uint8_t adcMode, const uint8_t channel )
 {
